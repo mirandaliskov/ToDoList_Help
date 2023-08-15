@@ -14,8 +14,9 @@ struct ContentView: View {
     //In Iteration 2, add @Environment here
     
     //Add a State property called toDoItems that holds an empty array of ToDoItems
-    
+    @State var ToDoItems: [ToDoItem] = []
     //Add a State property called showNewTask that is set to false
+    @State private var showNewTask = false
     
     var body: some View {
         VStack {
@@ -29,7 +30,7 @@ struct ContentView: View {
                 Spacer()
                 //Add a Button here with Text("+") and delete any code in the action
                 Button(action: {
-                    
+                    self.showNewTask = true
                 }) {
                     Text("+")
                         .font(.largeTitle)
@@ -39,12 +40,23 @@ struct ContentView: View {
             .padding()
             //Add a Spacer here
             Spacer()
+            List {
+                ForEach (ToDoItems) {ToDoItem in
+                    if ToDoItem.isImportant == true {
+                    Text("‼️" + ToDoItem.title)
+                } else {
+                    Text(ToDoItem.title)
+                }
+                    }
+            }
             //Add a List View here
                 //In Iteration 1, delte the Text View and add an if statement inside the list view that indicates to add !! to ToDoItems that are marked important
                     //In Iteration 2, add optionals to the Text views in the if statement
                         //In Iteration 2, add the onDelete modifier before the closing bracket of the For Each statement
         }
-        
+        if showNewTask {
+            NewToDoView(title: "", isImportant: false, ToDoItems: $ToDoItems, showNewTask: $showNewTask)
+                }
         //Add an if statement here that indicates if showNewTask is true, then NewToDoView will be displayed
             //In Iteration 1, bind toDoItems: $toDoItems in this if statement
             //In Iteration 1, bind showNewTask: $showNewTask in this if statement
